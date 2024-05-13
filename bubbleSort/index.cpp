@@ -30,7 +30,7 @@ void bubbleSortWhileLoop(int arr[], int n)
     swapped = false;
     for (int i = 0; i < n - 1; i++)
     {
-      if (arr[i] > arr[i +  1])
+      if (arr[i] > arr[i + 1])
       {
         std::swap(arr[i], arr[i + 1]);
         swapped = true;
@@ -43,8 +43,8 @@ void bubbleSortWhileLoop(int arr[], int n)
 // Function to print an array
 void printArray(int arr[], int size)
 {
-  std::cout << "size: " << size << "\n";
-
+  std::cout << "Sorted array: \n";
+  
   for (int i = 0; i < size; i++)
   {
     std::cout << arr[i] << " ";
@@ -56,11 +56,17 @@ void printArray(int arr[], int size)
 // Driver code
 int main()
 {
-  int arr[] = {5, 1, 4, 8, 2};
-  int N = sizeof(arr) / sizeof(arr[0]);
-  //bubbleSortForLoop(arr, N);
-  bubbleSortWhileLoop(arr, N);
-  std::cout << "Sorted array: \n";
-  printArray(arr, N);
+  int arr1[] = {5, 1, 4, 8, 7, 2};
+  int arr1Length = sizeof(arr1) / sizeof(arr1[0]);
+
+  int arr2[] = {9, 3, 8, 6, 1};
+  int arr2Length = sizeof(arr2) / sizeof(arr2[0]);
+
+  bubbleSortForLoop(arr1, arr1Length);
+  bubbleSortWhileLoop(arr2, arr2Length);
+
+  printArray(arr1, arr1Length);
+  printArray(arr2, arr2Length);
+
   return 0;
 }
