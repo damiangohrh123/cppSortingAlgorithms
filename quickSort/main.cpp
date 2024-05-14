@@ -40,7 +40,7 @@ void quicksort(std::vector<int>& vec, int low, int high)
 // Function to print an array
 void printArray(std::vector<int> vec, int size)
 {
-  std::cout << "Sorted array: \n";
+  std::cout << "Sorted array: ";
   
   for (int i = 0; i < size; i++)
   {
@@ -56,14 +56,9 @@ int main()
   std::vector<int> vec1 = {5, 1, 4, 8, 7, 2};
   size_t vec1Size = vec1.size();
 
-  std::vector<int> vec2 = {9, 3, 8, 6, 1};
-  size_t vec2Size = vec2.size();
-
   quicksort(vec1, 0, 5);
-  quicksort(vec2, 0, 4);
 
   printArray(vec1, vec1Size);
-  printArray(vec2, vec2Size);
 
   return 0;
 }
