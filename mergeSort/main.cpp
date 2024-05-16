@@ -47,7 +47,7 @@ std::vector<int> merge(std::vector<int> left, std::vector<int> right)
 }
 
 // Mergesort recursive function
-std::vector<int> mergesort(std::vector<int>& vec, int low, int high)
+std::vector<int> insertionsort(std::vector<int>& vec, int low, int high)
 {
   // Base case: single element vector
   if (low >= high)
@@ -59,8 +59,8 @@ std::vector<int> mergesort(std::vector<int>& vec, int low, int high)
   int mid = low + (high - low) / 2;
 
   // Recursively split the vector into halves
-  std::vector<int> left = mergesort(vec, low, mid);
-  std::vector<int> right = mergesort(vec, mid + 1, high);
+  std::vector<int> left = insertionsort(vec, low, mid);
+  std::vector<int> right = insertionsort(vec, mid + 1, high);
 
   return merge(left, right);
 }
@@ -80,7 +80,7 @@ void printVector(std::vector<int> vec, int size, std::string text)
 int main()
 {
   std::vector<int> original = {5, 1, 4, 8, 7, 2, 9};
-  std::vector<int> sorted = mergesort(original, 0, original.size() - 1);
+  std::vector<int> sorted = insertionsort(original, 0, original.size() - 1);
   
   // Print vectors
   printVector(original, original.size(), "Original vector: ");
