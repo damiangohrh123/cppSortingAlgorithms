@@ -5,8 +5,8 @@
 
 class HashTable {
   public:
-    //int *buckets = 0;
-    std::vector<int> buckets;
+    int *buckets = 0;
+    std::vector<int> bucketVector;
     long a, c, m;
     int numOfElements;
 
@@ -18,7 +18,6 @@ class HashTable {
     void remove(int);
     double loadFactor();
     void printTable();
-    int hashNumberCalculator(int);
 };
 
 #endif

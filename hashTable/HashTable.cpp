@@ -1,5 +1,4 @@
 #include "HashTable.hpp"
-
 #include <iostream>
 
 HashTable::HashTable(long _a, long _c, long _m)
@@ -7,7 +6,7 @@ HashTable::HashTable(long _a, long _c, long _m)
   a = _a;
   c = _c;
   m = _m;
-  buckets.resize(m, -1);
+  bucketVector.resize(m, -1);
 }
 
 HashTable::~HashTable() {}
@@ -21,17 +20,17 @@ void HashTable::insert(int key)
   if (loadFactor() == 1) extend();
 
   // Calculate hash function
-  int hashNumber = hashNumberCalculator(key);
+  int hashNumber = (a * key + c) % m;
 
   // Linear probing (Move to the right)
   int linearNumber = hashNumber;
-  while (buckets[linearNumber] != -1)
+  while (bucketVector[linearNumber] != -1)
   {
     // Move to next number (Use mod to wrap it around)
     linearNumber = (linearNumber + 1) % m;
   }
 
-  buckets[linearNumber] = key;
+  bucketVector[linearNumber] = key;
   numOfElements++;
 }
 
@@ -41,23 +40,23 @@ void HashTable::extend()
   std::vector<int> temporaryVector;
 
   // Add all current keys in the current bucket into the temporary vector
-  for (int i = 0; i < buckets.size(); i++)
+  for (int i = 0; i < bucketVector.size(); i++)
   {
-    if (buckets[i] > -1)
+    if (bucketVector[i] > -1)
     {
-      temporaryVector.push_back(buckets[i]);
+      temporaryVector.push_back(bucketVector[i]);
     }
   }
 
   // Clear the current bucket
-  buckets.clear();
+  bucketVector.clear();
 
   // Reset the number of elements
   numOfElements = 0;
 
   // Increase the size of the current bucket
   m *= 2;
-  buckets.resize(m, -1);
+  bucketVector.resize(m, -1);
 
   // Re-hash and insert all the values back into the bucket
   for (int i = 0; i < temporaryVector.size(); i++)
@@ -70,13 +69,13 @@ void HashTable::extend()
 bool HashTable::find(int key)
 {
   // Calculate hash function
-  int hashNumber = hashNumberCalculator(key);
+  int hashNumber = (a * key + c) % m;
 
   // Linear probing (Move to the right)
   int linearNumber = hashNumber;
   do
   {
-    if (buckets[linearNumber] == key)
+    if (bucketVector[linearNumber] == key)
     {
       return true;
     }
@@ -92,15 +91,15 @@ bool HashTable::find(int key)
 void HashTable::remove(int key)
 {
   // Calculate hash function
-  int hashNumber = hashNumberCalculator(key);
+  int hashNumber = (a * key + c) % m;
 
   // Linear probing (Move to the right)
   int linearNumber = hashNumber;
   do
   {
-    if (buckets[linearNumber] == key)
+    if (bucketVector[linearNumber] == key)
     {
-      buckets[linearNumber] = -1;
+      bucketVector[linearNumber] = -1;
     }
 
     // Move to next number (Use mod to wrap it around)
@@ -112,17 +111,17 @@ void HashTable::remove(int key)
 double HashTable::loadFactor()
 {
   // Static cast to make it return a double instead of an int
-  return static_cast<double>(numOfElements) / buckets.size();
+  return static_cast<double>(numOfElements) / bucketVector.size();
 }
 
 void HashTable::printTable()
 {
   std::cout << "Hashtable: " << "\n";
   std::cout << "[";
-  for (int i = 0; i < buckets.size(); i++)
+  for (int i = 0; i < bucketVector.size(); i++)
   {
-    std::cout << buckets[i];
-    if (i < buckets.size() -1)
+    std::cout << bucketVector[i];
+    if (i < bucketVector.size() -1)
     {
       std::cout << ", ";
     }
@@ -130,9 +129,4 @@ void HashTable::printTable()
   std::cout << "]" << "\n";
 
   std::cout << "Load Factor: " << loadFactor() << "\n" << "\n";
-}
-
-int HashTable::hashNumberCalculator(int key)
-{
-  return (a * key + c) % m;
 }
