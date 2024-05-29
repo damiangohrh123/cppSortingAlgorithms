@@ -66,7 +66,7 @@ int LinkedList::search(LinkedList::Node*& _head,int _value)
 void LinkedList::remove(LinkedList::Node*& _head,int _value)
 {
     Node* currentNode = _head;
-    Node* previousNode = 0;
+    Node* previousNode = nullptr;
 
     // If the list is empty
     if (currentNode == nullptr)
@@ -78,6 +78,7 @@ void LinkedList::remove(LinkedList::Node*& _head,int _value)
     if (currentNode->data == _value)
     {
         _head = currentNode->next;
+        delete currentNode;
         return;
     }
 
@@ -89,6 +90,7 @@ void LinkedList::remove(LinkedList::Node*& _head,int _value)
             // Make previous node's next point to current node's next
             // effectively deleting the current node
             previousNode->next = currentNode->next;
+            delete currentNode;
             return;
         }
 
@@ -113,9 +115,6 @@ void LinkedList::display(LinkedList::Node*& _head)
         iterator=iterator->next;
     }
     cout << "\n";
-
-    // Print length
-    std::cout << "length: " << LinkedList::length(LinkedList::getHead()) << "\n";
 }
 
 LinkedList::Node*& LinkedList::getHead()
